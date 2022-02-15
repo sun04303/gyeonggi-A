@@ -6,6 +6,10 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 a, a:hover {
     text-decoration: none;
 }
@@ -18,6 +22,10 @@ ul {
     list-style: none;
 }
 
+.red {
+    color: #f00;
+}
+
 .title {
     display: flex;
     align-items: center;
@@ -28,6 +36,7 @@ ul {
     width: 4px;
     height: 43px;
     background-color: #000;
+    margin-right: 15px;
 }
 
 .pc {
@@ -63,12 +72,124 @@ ul {
 .btn-cus:hover { background-color: #333; color: #fff; }
 .btn-cus:hover::before, .btn-cus:hover::after { width: 100%; }
 
+.title-image {
+    width: 100%;
+    height: 600px;
+    position: relative;
+}
+
+.title-image__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.title-image__cover {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    top: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+/* 로딩 에니메이션 */ 
+
+.loading {
+    width: 100%;
+    height: 100vh;
+    background-color: #ddd;
+
+    opacity: 0;
+    visibility: hidden;
+
+    position: fixed;
+    top: 0;
+    z-index: 10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    animation: del 4s 1;
+}
+
+.loading__item {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+
+    animation: loader 1s infinite linear;
+}
+
+.loading__item,
+.loading__item::after,
+.loading__item::before {
+    animation: 1s infinite ease-in-out;
+}
+
+.loading__item::after,
+.loading__item::before {
+    content: '';
+    width: 80%;
+    height: 80%;
+    background-color: #333;
+    border-radius: 50%;
+    position: absolute;
+    top: 5%;
+    left: 0;
+}
+
+.loading__item::before {
+    left: -5%;
+    animation: loader2 1s infinite alternate ease-in-out;
+    transform-origin: 10% 50%;
+}
+
+.loading__item::after {
+    left: auto;
+    right: -5%;
+    animation: loader2 1s 1s infinite alternate ease-in-out;
+    transform: scale(0);
+    transform-origin: 90% 50%;
+}
+
+@keyframes loader {
+    0% {transform: rotate(20deg);}
+    100% {transform: rotate(380deg);}
+}
+
+@keyframes loader2 {
+    0% {transform: scale(0);}
+    100% {transform: scale(1);}
+}
+
+@keyframes del {
+    0% {opacity: 1; visibility: visible;}
+    99% {opacity: 1; visibility: visible;}
+    100% {
+        opacity: 0;
+        visibility: hidden;
+        animation-play-state: paused;
+    }
+}
 
 /* 헤더 */
 
 .header {
-    height: 100px;
+    /* height: 100px; */
     width: 100%;
+    padding: 40px 0;
     
     display: flex;
     align-items: center;
@@ -142,36 +263,85 @@ ul {
     color: #fff;
 }
 
-label[for="hamberger"] {
+.mobile__hamberger {
     width: 40px;
     height: 20px;
     position: relative;
 }
 
-label[for="hamberger"] > span {
+.mobile__hamberger > span {
     width: 100%;
     height: 2px;
     background-color: #fff;
     display: inline-block;
     position: absolute;
     transition: .5s;
+    z-index: 10;
 }
 
-label[for="hamberger"] > span:nth-child(1) {top: 0;}
-label[for="hamberger"] > span:nth-child(2) {top: 50%; transform: translateY(-50%);}
-label[for="hamberger"] > span:nth-child(3) {bottom: 0;}
+.mobile__menu {
+    width: 100vw;
+    height: 100vh;
+    margin-right: -100vw;
 
-#hamberger:checked ~ label span:nth-child(1) {top: 50%; transform: rotateZ(45deg) translateY(-50%);}
-#hamberger:checked ~ label span:nth-child(2) {opacity: 0;}
-#hamberger:checked ~ label span:nth-child(3) {bottom: 50%; transform: rotateZ(-45deg) translateY(50%);}
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    display: flex;
+
+    transition: .5s;
+}
+
+.mobile__label {
+    width: calc(100vw - 280px);
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.mobile__ul {
+    width: 280px;
+    height: 100%;
+    padding: 100px 20px;
+
+    background-color: #fff;
+}
+
+.mobile__hamberger > span:nth-child(1) {top: 0;}
+.mobile__hamberger > span:nth-child(2) {top: 50%; transform: translateY(-50%);}
+.mobile__hamberger > span:nth-child(3) {bottom: 0;}
+
+#hamberger:checked ~ label span:nth-child(1) {background-color: #000; top: 50%; transform: rotateZ(45deg) translateY(-50%);}
+#hamberger:checked ~ label span:nth-child(2) {background-color: #000; opacity: 0;}
+#hamberger:checked ~ label span:nth-child(3) {background-color: #000; bottom: 50%; transform: rotateZ(-45deg) translateY(50%);}
+
+#hamberger:checked ~ .mobile__menu {
+    margin-right: 0;
+}
+
+.mobile__li {
+    width: 100%;
+    min-height: 50px;
+
+    padding: 0 20px;
+    margin-bottom: 5px;
+
+    line-height: 50px;
+
+    background-color: #ddd;
+}
+
+.detail__ul {
+    margin-left: 20px;
+}
 
 @media screen and (max-width:768px) {
     .pc {
-        display: none;
+        display: none !important;
     }
 
     .mobile {
-        display: flex;
+        display: flex !important;
     }
 }
 
@@ -346,7 +516,7 @@ label[for="hamberger"] > span:nth-child(3) {bottom: 0;}
     transform: scale(1.1);
 }
 
-.best-menu__item:nth-child(5) {
+.best-menu__item:nth-child(6) {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -371,6 +541,12 @@ label[for="hamberger"] > span:nth-child(3) {bottom: 0;}
     transition: .5s;
 }
 
+@media screen and (max-width: 768px) {
+    .best-menu__box {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* 이벤트 */
 
 .event__box {
@@ -387,4 +563,115 @@ label[for="hamberger"] > span:nth-child(3) {bottom: 0;}
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+@media screen and (max-width: 768px) {
+    .event__box {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 베스트 리뷰 */
+
+.best-review {
+    margin: 100px auto;
+}
+
+.best-review__box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.best-review__item img {
+    height: 220px;
+    object-fit: cover;
+}
+
+.best-review__item .card-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.best-review button {
+    left: 50%;
+    margin: 20px;
+    position: relative;
+    transform: translateX(-50%);
+}
+
+@media screen and (max-width: 768px) {
+    .best-review__box {
+        flex-direction: column;
+    }
+
+    .best-review__item {
+        width: 100% !important;
+        margin-bottom: 10px;
+    }
+}
+
+/* 최상단 이동 버튼 */
+
+.top-button {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    
+    position: fixed;
+    top: 85%;
+    right: 5%;
+    
+    border: 1px solid #000;
+    background-color: #fff;
+    color: #000;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.top-button i {
+    font-size: 22px;
+}
+
+@media screen and (max-width: 768px) {
+    .top-button {
+        width: 60px;
+        height: 60px;
+        top: 80%;
+    }
+
+    .top-button i {
+        font-size: 18px;
+    }   
+}
+
+/* 푸터 */
+
+.footer {
+    padding: 40px 0;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #333;
+    color: #fff;
+}
+
+/* 소개 */
+
+.intro__box {
+    padding: 50px 0;
+}
+
+.intro__img {
+    width: 100%;
+    margin: 10px 0;
 }
